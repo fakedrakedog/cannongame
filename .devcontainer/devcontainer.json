@@ -1,26 +1,34 @@
-// For format details, see https://aka.ms/devcontainer.json. For config options, see the
-// README at: https://github.com/devcontainers/templates/tree/main/src/docker-existing-dockerfile
 {
-	"name": "Existing Dockerfile",
-	"build": {
-		// Sets the run context to one level up instead of the .devcontainer folder.
-		"context": "..",
-		// Update the 'dockerFile' property if you aren't using the standard 'Dockerfile' filename.
-		"dockerfile": "../Dockerfile"
-	}
-
-	// Features to add to the dev container. More info: https://containers.dev/features.
-	// "features": {},
-
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [],
-
-	// Uncomment the next line to run commands after the container is created.
-	// "postCreateCommand": "cat /etc/os-release",
-
-	// Configure tool-specific properties.
-	// "customizations": {},
-
-	// Uncomment to connect as an existing user other than the container default. More info: https://aka.ms/dev-containers-non-root.
-	// "remoteUser": "devcontainer"
+    "name": "CannonGame Development Container",
+    "dockerFile": "Dockerfile",
+    "context": "..",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "vscjava.vscode-java-pack",
+                "vscjava.vscode-maven",
+                "redhat.java",
+                "vscjava.vscode-java-debug",
+                "vscjava.vscode-java-test",
+                "VisualStudioExptTeam.vscodeintellicode",
+                "redhat.fabric8-analytics",
+                "ms-azuretools.vscode-docker",
+                "formulahendry.docker-explorer",
+                "tiibun.vscode-docker-ws",
+                "redhat.vscode-yaml",
+                "Oracle.oracle-java",
+                "esbenp.prettier-vscode",
+                "SonarSource.sonarlint-vscode",
+                "albert.TabOut"
+            ],
+            "settings": {
+                "java.jdt.ls.java.home": "/opt/java/openjdk"
+            }
+        }
+    },
+    "runArgs": [
+        "-e", "DISPLAY=host.docker.internal:0.0",
+        "-v", "/tmp/.X11-unix:/tmp/.X11-unix"
+    ],
+    "postCreateCommand": "mvn dependency:resolve"
 }
