@@ -1,34 +1,35 @@
 {
-    "name": "CannonGame Development Container",
-    "dockerFile": "Dockerfile",
-    "context": "..",
-    "customizations": {
-        "vscode": {
-            "extensions": [
-                "vscjava.vscode-java-pack",
-                "vscjava.vscode-maven",
-                "redhat.java",
-                "vscjava.vscode-java-debug",
-                "vscjava.vscode-java-test",
-                "VisualStudioExptTeam.vscodeintellicode",
-                "redhat.fabric8-analytics",
-                "ms-azuretools.vscode-docker",
-                "formulahendry.docker-explorer",
-                "tiibun.vscode-docker-ws",
-                "redhat.vscode-yaml",
-                "Oracle.oracle-java",
-                "esbenp.prettier-vscode",
-                "SonarSource.sonarlint-vscode",
-                "albert.TabOut"
-            ],
-            "settings": {
-                "java.jdt.ls.java.home": "/opt/java/openjdk"
-            }
-        }
-    },
-    "runArgs": [
-        "-e", "DISPLAY=host.docker.internal:0.0",
-        "-v", "/tmp/.X11-unix:/tmp/.X11-unix"
-    ],
-    "postCreateCommand": "mvn dependency:resolve"
+  "name": "CannonGame Development Container",
+  "dockerFile": "Dockerfile",
+  "context": "..",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "vscjava.vscode-java-pack",
+        "vscjava.vscode-maven",
+        "redhat.java",
+        "vscjava.vscode-java-debug",
+        "vscjava.vscode-java-test",
+        "VisualStudioExptTeam.vscodeintellicode",
+        "redhat.fabric8-analytics",
+        "ms-azuretools.vscode-docker",
+        "formulahendry.docker-explorer",
+        "redhat.vscode-yaml",
+        "Oracle.oracle-java",
+        "esbenp.prettier-vscode",
+        "SonarSource.sonarlint-vscode",
+        "albert.TabOut"
+      ],
+      "settings": {
+        "java.jdt.ls.java.home": "/opt/java/openjdk"
+      }
+    }
+  },
+  "runArgs": [
+    "-e",
+    "DISPLAY=host.docker.internal:0.0",
+    "-v",
+    "/tmp/.X11-unix:/tmp/.X11-unix"
+  ],
+  "postCreateCommand": "mvn dependency:resolve"
 }
