@@ -6,6 +6,13 @@ import java.awt.Graphics;
 public class PaintableBall extends Ball{
     private Color color;
 
+    private static final Color BASE_COLOR = Color.black;
+
+    public PaintableBall(int x, int y, int radius) {
+        super(x, y, radius);
+        this.color = BASE_COLOR;
+    }
+
     public PaintableBall(int x, int y, int radius, Color color) {
         super(x, y, radius);
         this.color = color;
