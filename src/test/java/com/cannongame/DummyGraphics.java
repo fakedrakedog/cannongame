@@ -36,7 +36,7 @@ public class DummyGraphics extends java.awt.Graphics{
 
     @Override
     public Color getColor() {
-        return color;
+        return this.color;
     }
 
     @Override

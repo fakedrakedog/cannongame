@@ -22,7 +22,7 @@ public class PaintableBall extends Ball{
 
         Color previousColor = g.getColor();
         g.setColor(getColor());
-        g.drawOval(getX() - getRadius(), getY() - getRadius(), getRadius() * 2, getRadius() * 2);
+        g.fillOval(getX() - getRadius(), getY() - getRadius(), getRadius() * 2, getRadius() * 2);
         g.setColor(previousColor);
     }
 
