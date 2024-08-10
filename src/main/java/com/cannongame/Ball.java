@@ -3,9 +3,10 @@ package com.cannongame;
 import java.awt.Graphics;
 
 public class Ball {
-   int x;
+    int x;
     int y;
     int radius;
+
 
     /**
      * Constructor.
@@ -33,6 +34,13 @@ public class Ball {
 
     public int getY() {
         return y;
+    }
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
     }
 
     public int getRadius() {
