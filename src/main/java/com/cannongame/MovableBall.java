@@ -3,8 +3,12 @@ package com.cannongame;
 import java.awt.Color;
 
 public class MovableBall extends PaintableBall{
-    private int dx;
-    private int dy;
+    private int dx = 0;
+    private int dy = 0;
+
+    public MovableBall(int x, int y, int radius) {
+        super(x, y, radius);
+    }
     public MovableBall(int x, int y, int radius, Color color) {
         super(x, y, radius, color);
     }
@@ -24,12 +28,14 @@ public class MovableBall extends PaintableBall{
     }
     
     public void move() {
-        this.moveTo(x+getDx(), y+getDy());
+        moveTo(getX() + getDx(), getY() + getDy());
     }
 
     public void moveTo(int x, int y) {
-        super.setX(x);
-        super.setY(y);
+        setX(x);
+        setY(y);
+        getLogger().trace(getName() + " move to : x = " + getX() + ", y = " + getY());
+        
     }
 
 }

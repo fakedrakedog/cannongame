@@ -29,12 +29,12 @@ public class World extends JPanel{
 
         ballList.add(ball);
         if (ball instanceof PaintableBall) {
-            logger.trace(String.format("ball 추가 : %4d, %4d, %4d, %s",
-                    ((PaintableBall) ball).getX(),
-                    ((PaintableBall) ball).getY(),
-                    ((PaintableBall) ball).getRadius(),
+            logger.trace(String.format("ball 추가 : %4d, %4d, %4d, %s", ((PaintableBall) ball).getX(),
+                    ((PaintableBall) ball).getY(), ((PaintableBall) ball).getRadius(),
                     ((PaintableBall) ball).getColor().toString()));
         }
+
+        
     }
 
     public void remove(Ball ball) {
@@ -58,16 +58,18 @@ public class World extends JPanel{
         return ballList.get(index);
     }
 
+    public int getCount() {
+        return ballList.size();
+    }
+
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        for(Ball ball : ballList){
+        for (Ball ball : ballList) {
             if (ball instanceof PaintableBall) {
                 ((PaintableBall) ball).paint(g);
             }
         }
     }
-    
-
     
 }
