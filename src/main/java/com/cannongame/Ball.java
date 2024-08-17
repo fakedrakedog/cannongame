@@ -1,6 +1,7 @@
 package com.cannongame;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.util.UUID;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -66,6 +67,21 @@ public class Ball {
 
     public void paint(Graphics g) {
         g.drawOval(x, y, radius, radius);
+    }
+
+    public boolean isCollision(Ball other) {
+
+        return Math
+                .sqrt(Math.pow((double) this.getX() - other.getX(), 2)
+                        + Math.pow((double) this.getY() - other.getY(), 2))
+                - (this.getRadius() + other.getRadius()) < 0;
+
+
+    }
+
+    public Rectangle getRegion() {
+        return new Rectangle(getX() - getRadius(), getY() - getRadius(), getRadius() * 2,
+                getRadius() * 2);
     }
 
 }

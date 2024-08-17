@@ -3,8 +3,6 @@ package com.cannongame;
 import java.util.Random;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class Main extends JFrame {
     static final int WORLD_WIDTH = 400;
@@ -19,9 +17,8 @@ public class Main extends JFrame {
 
 
     public static void main(String[] args) throws InterruptedException {
-        Logger logger = LogManager.getLogger();
         Main frame = new Main();
-        MovableWorld world = new MovableWorld();
+        BoundedWorld world = new BoundedWorld();
         Random random = new Random();
 
         frame.setSize(WORLD_WIDTH, WORLD_HEIGHT);

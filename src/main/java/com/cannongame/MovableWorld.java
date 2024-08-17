@@ -49,11 +49,20 @@ public class MovableWorld extends World {
         while ((maxMoveCount == 0) || (moveCount < maxMoveCount)) {
             move();
             moveCount++;
-            try {
-                Thread.sleep(nextMoveTime - System.currentTimeMillis());
-                nextMoveTime += dt;
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
+            if (dt != 0) {
+                try {
+                    long currentTime = System.currentTimeMillis();
+                    if (nextMoveTime < currentTime) {
+                        nextMoveTime += ((currentTime - nextMoveTime) / dt + 1) * dt;
+                    } else {
+                        Thread.sleep(nextMoveTime - System.currentTimeMillis());
+                        nextMoveTime += dt;
+                    }
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            } else {
+                nextMoveTime = System.currentTimeMillis();
             }
         }
         logger.trace("finished : " + (System.currentTimeMillis() - startTime));
