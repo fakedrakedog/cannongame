@@ -3,7 +3,7 @@ package com.cannongame;
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class PaintableBall extends Ball{
+public class PaintableBall extends Ball {
     private Color color;
 
     private static final Color BASE_COLOR = Color.black;
@@ -33,5 +33,5 @@ public class PaintableBall extends Ball{
         g.setColor(previousColor);
     }
 
-    
+
 }

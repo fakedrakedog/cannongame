@@ -11,8 +11,9 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 public class MovableBallTest {
-    
+
     static Random random = new Random();
+
     @RepeatedTest(10)
     void testMove(RepetitionInfo repetitionInfo, TestInfo testInfo) {
         int raidus = 10 + random.nextInt(41);
@@ -67,10 +68,8 @@ public class MovableBallTest {
     }
 
     static Stream<Arguments> moveProvider() {
-        return Stream.of(
-            Arguments.arguments(10,10,10,10,10),
-            Arguments.arguments(10,10,10,-10,10),
-            Arguments.arguments(10,20,30,40,50));
-            
+        return Stream.of(Arguments.arguments(10, 10, 10, 10, 10),
+                Arguments.arguments(10, 10, 10, -10, 10), Arguments.arguments(10, 20, 30, 40, 50));
+
     }
 }

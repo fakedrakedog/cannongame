@@ -6,19 +6,16 @@
     "vscode": {
       "extensions": [
         "vscjava.vscode-java-pack",
-        "vscjava.vscode-maven",
         "redhat.java",
-        "vscjava.vscode-java-debug",
-        "vscjava.vscode-java-test",
-        "VisualStudioExptTeam.vscodeintellicode",
         "redhat.fabric8-analytics",
         "ms-azuretools.vscode-docker",
         "formulahendry.docker-explorer",
         "redhat.vscode-yaml",
-        "Oracle.oracle-java",
         "esbenp.prettier-vscode",
         "SonarSource.sonarlint-vscode",
-        "albert.TabOut"
+        "albert.TabOut",
+        "redhat.vscode-xml",
+        "formulahendry.auto-close-tag"
       ],
       "settings": {
         "java.jdt.ls.java.home": "/opt/java/openjdk"

@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 public class Main extends JFrame {
     static final int WORLD_WIDTH = 400;
     static final int WORLD_HEIGHT = 300;
@@ -15,7 +16,7 @@ public class Main extends JFrame {
     static final int BALL_COUNT = 1;
     static final int MAX_MOVE_COUNT = 100;
     static final int DELTA_TIME = 100;
-    
+
 
     public static void main(String[] args) throws InterruptedException {
         Logger logger = LogManager.getLogger();
@@ -27,7 +28,7 @@ public class Main extends JFrame {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         world.setSize(WORLD_WIDTH, WORLD_HEIGHT);
         frame.add(world);
-       
+
         while (world.getCount() < BALL_COUNT) {
             int radius = MIN_RADIUS + random.nextInt(MAX_RADIUS - MIN_RADIUS + 1);
             int x = radius + random.nextInt(WORLD_WIDTH - 2 * radius);
@@ -52,5 +53,5 @@ public class Main extends JFrame {
         world.run();
     }
 
-   
+
 }

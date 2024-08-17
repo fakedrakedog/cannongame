@@ -1,6 +1,6 @@
 package com.cannongame;
 
-public class MovableWorld extends World{
+public class MovableWorld extends World {
     private int moveCount = 0;
     private int maxMoveCount = 0;
     private int dt = 0;
@@ -12,6 +12,7 @@ public class MovableWorld extends World{
     public int getDt() {
         return this.dt;
     }
+
     public int getMoveCount() {
         return moveCount;
     }

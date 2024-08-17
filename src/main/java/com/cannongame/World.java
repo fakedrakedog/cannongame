@@ -8,20 +8,20 @@ import javax.swing.JPanel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class World extends JPanel{
+public class World extends JPanel {
     private List<Ball> ballList = new LinkedList<>();
-    Logger logger = LogManager.getLogger(); 
+    Logger logger = LogManager.getLogger();
+
     public World() {
         super();
     }
 
     public void add(Ball ball) {
-       if (ball == null) {
+        if (ball == null) {
             throw new IllegalArgumentException();
         }
 
-        if ((ball.getX() - ball.getRadius() < 0)
-                || (getWidth() < ball.getX() + ball.getRadius())
+        if ((ball.getX() - ball.getRadius() < 0) || (getWidth() < ball.getX() + ball.getRadius())
                 || (ball.getY() - ball.getRadius() < 0)
                 || (getHeight() < ball.getY() + ball.getRadius())) {
             throw new IllegalArgumentException("추가하려는 ball이 world를 벗어납니다.");
@@ -34,7 +34,7 @@ public class World extends JPanel{
                     ((PaintableBall) ball).getColor().toString()));
         }
 
-        
+
     }
 
     public void remove(Ball ball) {
@@ -71,5 +71,5 @@ public class World extends JPanel{
             }
         }
     }
-    
+
 }

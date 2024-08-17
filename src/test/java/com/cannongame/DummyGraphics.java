@@ -16,7 +16,7 @@ import java.util.Map;
 
 
 
-public class DummyGraphics extends java.awt.Graphics{
+public class DummyGraphics extends java.awt.Graphics {
     private Color color;
     List<String> callList = new LinkedList<>();
     Map<String, Integer> callCount = new HashMap<>();
@@ -139,17 +139,17 @@ public class DummyGraphics extends java.awt.Graphics{
     @Override
     public void drawOval(int x, int y, int width, int height) {
         callList.add("drawOval");
-    try {
-        callCount.put("drawOval", callCount.get("drawOval") + 1);
-    } catch (NullPointerException ignore) {
-        callCount.put("drawOval", 1);
-    }
-    drawOvalParams = new HashMap<>();
-    drawOvalParams.put("x", x);
-    drawOvalParams.put("y", y);
-    drawOvalParams.put("width", width);
-    drawOvalParams.put("height", height);
-    drawOvalParams.put("color", color);
+        try {
+            callCount.put("drawOval", callCount.get("drawOval") + 1);
+        } catch (NullPointerException ignore) {
+            callCount.put("drawOval", 1);
+        }
+        drawOvalParams = new HashMap<>();
+        drawOvalParams.put("x", x);
+        drawOvalParams.put("y", y);
+        drawOvalParams.put("width", width);
+        drawOvalParams.put("height", height);
+        drawOvalParams.put("color", color);
     }
 
     @Override
@@ -210,7 +210,8 @@ public class DummyGraphics extends java.awt.Graphics{
     }
 
     @Override
-    public boolean drawImage(Image img, int x, int y, int width, int height, ImageObserver observer) {
+    public boolean drawImage(Image img, int x, int y, int width, int height,
+            ImageObserver observer) {
         throw new UnsupportedOperationException("Unimplemented method 'drawImage'");
     }
 
@@ -220,19 +221,20 @@ public class DummyGraphics extends java.awt.Graphics{
     }
 
     @Override
-    public boolean drawImage(Image img, int x, int y, int width, int height, Color bgcolor, ImageObserver observer) {
-        throw new UnsupportedOperationException("Unimplemented method 'drawImage'");
-    }
-
-    @Override
-    public boolean drawImage(Image img, int dx1, int dy1, int dx2, int dy2, int sx1, int sy1, int sx2, int sy2,
+    public boolean drawImage(Image img, int x, int y, int width, int height, Color bgcolor,
             ImageObserver observer) {
         throw new UnsupportedOperationException("Unimplemented method 'drawImage'");
     }
 
     @Override
-    public boolean drawImage(Image img, int dx1, int dy1, int dx2, int dy2, int sx1, int sy1, int sx2, int sy2,
-            Color bgcolor, ImageObserver observer) {
+    public boolean drawImage(Image img, int dx1, int dy1, int dx2, int dy2, int sx1, int sy1,
+            int sx2, int sy2, ImageObserver observer) {
+        throw new UnsupportedOperationException("Unimplemented method 'drawImage'");
+    }
+
+    @Override
+    public boolean drawImage(Image img, int dx1, int dy1, int dx2, int dy2, int sx1, int sy1,
+            int sx2, int sy2, Color bgcolor, ImageObserver observer) {
         throw new UnsupportedOperationException("Unimplemented method 'drawImage'");
     }
 

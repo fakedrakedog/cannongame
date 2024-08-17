@@ -30,20 +30,22 @@ class BallTest {
 
     @Test
     void testConstructionWithIllegalArgument() {
-                for (int i = 0; i < loopCount; i++) {
-            int illegalCase = random.nextInt(3); 
+        for (int i = 0; i < loopCount; i++) {
+            int illegalCase = random.nextInt(3);
             int radius = random.nextInt(Integer.MAX_VALUE);
             int x;
             int y;
 
             if ((illegalCase == 1) || (illegalCase == 3)) {
-                x = (Integer.MAX_VALUE - random.nextInt(radius)) * (random.nextInt(1) == 0 ? 1 : -1);
+                x = (Integer.MAX_VALUE - random.nextInt(radius))
+                        * (random.nextInt(1) == 0 ? 1 : -1);
             } else {
                 x = random.nextInt(Integer.MAX_VALUE - radius) * (random.nextInt(1) == 0 ? 1 : -1);
             }
 
             if ((illegalCase == 2) || (illegalCase == 3)) {
-                y = (Integer.MAX_VALUE - random.nextInt(radius)) * (random.nextInt(1) == 0 ? 1 : -1);
+                y = (Integer.MAX_VALUE - random.nextInt(radius))
+                        * (random.nextInt(1) == 0 ? 1 : -1);
             } else {
                 y = random.nextInt(Integer.MAX_VALUE - radius) * (random.nextInt(1) == 0 ? 1 : -1);
             }
@@ -57,6 +59,6 @@ class BallTest {
         }
 
     }
-    
+
 
 }

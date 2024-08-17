@@ -8,19 +8,18 @@ import org.apache.logging.log4j.Logger;
 public class Ball {
     String id = UUID.randomUUID().toString();
     String name = id;
-    
+
     int x;
     int y;
     int radius;
     Logger logger;
-    
+
 
     public Ball(int x, int y, int radius) {
-        if ((radius <= 0)
-        || ((x >= 0) && ((Integer.MAX_VALUE - x) < radius))
-        || ((x < 0) && ((x - Integer.MIN_VALUE) < radius))
-        || ((y >= 0) && ((Integer.MAX_VALUE - y) < radius))
-        || ((y < 0) && ((y - Integer.MIN_VALUE) < radius))) {
+        if ((radius <= 0) || ((x >= 0) && ((Integer.MAX_VALUE - x) < radius))
+                || ((x < 0) && ((x - Integer.MIN_VALUE) < radius))
+                || ((y >= 0) && ((Integer.MAX_VALUE - y) < radius))
+                || ((y < 0) && ((y - Integer.MIN_VALUE) < radius))) {
             throw new IllegalArgumentException();
         }
         this.x = x;
@@ -28,7 +27,7 @@ public class Ball {
         this.radius = radius;
         this.logger = LogManager.getLogger(this.getClass());
     }
-    
+
     public String getId() {
         return id;
     }
@@ -52,6 +51,7 @@ public class Ball {
     public int getY() {
         return y;
     }
+
     public void setX(int x) {
         this.x = x;
     }

@@ -35,14 +35,13 @@ public class PaintableBallTest {
         ball.paint(graphics);
         Map<String, Object> fillOvalParams = graphics.getFillOvalParams();
         System.out.println("fill oval params: " + fillOvalParams);
-        assertAll(testInfo.getDisplayName()+"-paint",
-               ()-> assertEquals((x-radius),graphics.getFillOvalParams().get("x")),
-               ()-> assertEquals((y-radius),graphics.getFillOvalParams().get("y")),
-               ()-> assertEquals((2*radius), graphics.getFillOvalParams().get("width")),
-               ()-> assertEquals((2*radius),graphics.getFillOvalParams().get("height")),
-               ()-> assertEquals(color, graphics.getFillOvalParams().get("color")),
-               ()-> assertEquals(baseColor, graphics.getColor())
-                       );
+        assertAll(testInfo.getDisplayName() + "-paint",
+                () -> assertEquals((x - radius), graphics.getFillOvalParams().get("x")),
+                () -> assertEquals((y - radius), graphics.getFillOvalParams().get("y")),
+                () -> assertEquals((2 * radius), graphics.getFillOvalParams().get("width")),
+                () -> assertEquals((2 * radius), graphics.getFillOvalParams().get("height")),
+                () -> assertEquals(color, graphics.getFillOvalParams().get("color")),
+                () -> assertEquals(baseColor, graphics.getColor()));
     }
 
 }
