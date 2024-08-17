@@ -5,11 +5,11 @@ public class MovableWorld extends World {
     private int maxMoveCount = 0;
     private int dt = 0;
 
-    public void setDt(int dt) {
+    public void setDT(int dt) {
         this.dt = dt;
     }
 
-    public int getDt() {
+    public int getDT() {
         return this.dt;
     }
 

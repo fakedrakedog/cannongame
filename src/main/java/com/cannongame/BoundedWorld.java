@@ -1,86 +1,72 @@
 package com.cannongame;
 
-import java.awt.Rectangle;
-
 public class BoundedWorld extends MovableWorld {
     public boolean outOfBounds(Ball ball) {
-        return (ball.getX() - ball.getRadius() < getBounds().getMinX()
-                || ball.getX() + ball.getRadius() > getBounds().getMaxX()
-                || ball.getY() - ball.getRadius() < getBounds().getMinY()
-                || ball.getY() + ball.getRadius() > getBounds().getMaxY());
+        return (ball.getRegion().getMinX() < getBounds().getMinX())
+                || (ball.getRegion().getMaxX() > getBounds().getMaxX())
+                || (ball.getRegion().getMinY() < getBounds().getMinY())
+                || (ball.getRegion().getMaxY() > getBounds().getMaxY());
     }
 
     public void bounceBall(MovableBall ball) {
-        if (ball.getX() - ball.getRadius() < getBounds().getMinX()) {
-            ball.moveTo((int) getBounds().getMinX() + ball.getRadius(), ball.getY());
-            ball.setDx(-ball.getDx());
-        } else if (ball.getX() + ball.getRadius() > getBounds().getMaxX()) {
-            ball.moveTo((int) getBounds().getMaxX() - ball.getRadius(), ball.getY());
-            ball.setDx(-ball.getDx());
+        if (ball.getRegion().getMinX() < getBounds().getMinX()) {
+            ball.moveTo(new Point(
+                    (int) (2 * (getBounds().getMinX() + ball.getRadius())
+                            - ball.getLocation().getX() + Math.abs(ball.getMotion().getDX())),
+                    ball.getLocation().getY()));
+            ball.getMotion().turnDX();
+
+        } else if (ball.getRegion().getMaxX() > getBounds().getMaxX()) {
+            ball.moveTo(new Point(
+                    (int) (2 * (getBounds().getMaxX() - ball.getRadius())
+                            - ball.getLocation().getX() - Math.abs(ball.getMotion().getDX())),
+                    ball.getLocation().getY()));
+            ball.getMotion().turnDX();
         }
-        if (ball.getY() - ball.getRadius() < getBounds().getMinY()) {
-            ball.moveTo(ball.getX(), (int) getBounds().getMinY() + ball.getRadius());
-            ball.setDy(-ball.getDy());
-        } else if (ball.getY() + ball.getRadius() > getBounds().getMaxY()) {
-            ball.moveTo(ball.getX(), (int) getBounds().getMaxY() - ball.getRadius());
-            ball.setDy(-ball.getDy());
+
+        if (ball.getRegion().getMinY() < getBounds().getMinY()) {
+            ball.moveTo(new Point(ball.getLocation().getX(),
+                    (int) (2 * (getBounds().getMinY() + ball.getRadius())
+                            - ball.getLocation().getY() + Math.abs(ball.getMotion().getDY()))));
+            ball.getMotion().turnDY();
+        } else if (ball.getRegion().getMaxY() > getBounds().getMaxY()) {
+            ball.moveTo(new Point(ball.getLocation().getX(),
+                    (int) (2 * (getBounds().getMaxY() - ball.getRadius())
+                            - ball.getLocation().getY() - Math.abs(ball.getMotion().getDY()))));
+            ball.getMotion().turnDY();
         }
     }
 
     @Override
     public void move() {
-        super.move();
         for (int i = 0; i < getCount(); i++) {
-            Ball ball1 = get(i);
-            if (ball1 instanceof MovableBall) {
-                ((MovableBall) ball1).move();
+            if (get(i) instanceof MovableBall) {
+                MovableBall ball1 = (MovableBall) get(i);
+
+                ball1.move();
+
                 if (outOfBounds(ball1)) {
-                    bounceBall((MovableBall) ball1);
+                    bounceBall(ball1);
                 }
 
-                for (int j = i + 1; j < getCount(); j++) {
-                    Ball ball2 = get(j);
+                for (int j = 0; j < getCount(); j++) {
+                    if (ball1 != get(j)) {
+                        Ball ball2 = get(j);
 
-                    if (ball1.isCollision(ball2)) {
-                        Rectangle intersection = ball1.getRegion().intersection(ball2.getRegion());
+                        if (ball1.isCollision(ball2)) {
+                            Region intersection = ball1.getRegion().intersection(ball2.getRegion());
 
-                        if ((intersection.getWidth() != ball1.getRegion().getWidth())
-                                && (intersection.getWidth() != ball2.getRegion().getWidth())) {
-                            if (ball1.getX() - ball1.getRadius() < ball2.getX()
-                                    - ball2.getRadius()) {
-                                int newX =
-                                        2 * (ball2.getX() - ball2.getRadius() + ball1.getRadius())
-                                                - ball1.getX();
-                                ((MovableBall) ball1).moveTo(newX, ball1.getY());
-                                ((MovableBall) ball1).setDx(-((MovableBall) ball1).getDx());
-                            } else if (ball1.getX() + ball1.getRadius() > ball2.getX()
-                                    + ball2.getRadius()) {
-                                int newX =
-                                        2 * (ball2.getX() + ball2.getRadius() - ball1.getRadius())
-                                                - ball1.getX();
-                                ((MovableBall) ball1).moveTo(newX, ball1.getY());
-                                ((MovableBall) ball1).setDx(-((MovableBall) ball1).getDx());
+                            if ((intersection.getWidth() != ball1.getRegion().getWidth())
+                                    && (intersection.getWidth() != ball2.getRegion().getWidth())) {
+                                ball1.getMotion().turnDX();
+                            }
+
+                            if ((intersection.getHeight() != ball1.getRegion().getHeight())
+                                    && (intersection.getHeight() != ball2.getRegion()
+                                            .getHeight())) {
+                                ball1.getMotion().turnDY();
                             }
                         }
-                        if ((intersection.getHeight() != ball1.getRegion().getHeight())
-                                && (intersection.getHeight() != ball2.getRegion().getHeight())) {
-                            if (ball1.getY() - ball1.getRadius() < ball2.getY()
-                                    - ball2.getRadius()) {
-                                int newY =
-                                        2 * (ball2.getY() - ball2.getRadius() + ball1.getRadius())
-                                                - ball1.getY();
-                                ((MovableBall) ball1).moveTo(ball1.getX(), newY);
-                                ((MovableBall) ball1).setDy(-((MovableBall) ball1).getDy());
-                            } else if (ball1.getY() + ball1.getRadius() > ball2.getY()
-                                    + ball2.getRadius()) {
-                                int newY =
-                                        2 * (ball2.getY() + ball2.getRadius() - ball1.getRadius())
-                                                - ball1.getY();
-                                ((MovableBall) ball1).moveTo(ball1.getX(), newY);
-                                ((MovableBall) ball1).setDy(-((MovableBall) ball1).getDy());
-                            }
-                        }
-
                     }
                 }
             }

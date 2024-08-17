@@ -8,15 +8,16 @@ public class PaintableBall extends Ball {
 
     private static final Color BASE_COLOR = Color.black;
 
-    public PaintableBall(int x, int y, int radius) {
-        super(x, y, radius);
+    public PaintableBall(Point location, int radius) {
+        super(location, radius);
         this.color = BASE_COLOR;
     }
 
-    public PaintableBall(int x, int y, int radius, Color color) {
-        super(x, y, radius);
+    public PaintableBall(Point location, int radius, Color color) {
+        super(location, radius);
         this.color = color;
     }
+
 
     public Color getColor() {
         return this.color;
@@ -29,7 +30,8 @@ public class PaintableBall extends Ball {
 
         Color previousColor = g.getColor();
         g.setColor(getColor());
-        g.fillOval(getX() - getRadius(), getY() - getRadius(), getRadius() * 2, getRadius() * 2);
+        g.fillOval((int) getRegion().getMinX(), (int) getRegion().getMinY(),
+                (int) getRegion().getWidth(), (int) getRegion().getHeight());
         g.setColor(previousColor);
     }
 

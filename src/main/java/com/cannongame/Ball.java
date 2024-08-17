@@ -1,32 +1,39 @@
 package com.cannongame;
 
-import java.awt.Graphics;
-import java.awt.Rectangle;
 import java.util.UUID;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class Ball {
-    String id = UUID.randomUUID().toString();
-    String name = id;
-
-    int x;
-    int y;
-    int radius;
-    Logger logger;
+    private String id = UUID.randomUUID().toString();
+    private String name = id;
+    private Point location;
+    private Region region;
+    private Logger logger;
 
 
-    public Ball(int x, int y, int radius) {
-        if ((radius <= 0) || ((x >= 0) && ((Integer.MAX_VALUE - x) < radius))
-                || ((x < 0) && ((x - Integer.MIN_VALUE) < radius))
-                || ((y >= 0) && ((Integer.MAX_VALUE - y) < radius))
-                || ((y < 0) && ((y - Integer.MIN_VALUE) < radius))) {
+    public Ball(Point location, int radius) {
+        if ((radius <= 0)
+                || ((location.getX() >= 0) && ((Integer.MAX_VALUE - location.getX()) < radius))
+                || ((location.getX() < 0) && ((location.getX() - Integer.MIN_VALUE) < radius))
+                || ((location.getY() >= 0) && ((Integer.MAX_VALUE - location.getY()) < radius))
+                || ((location.getY() < 0) && ((location.getY() - Integer.MIN_VALUE) < radius))) {
             throw new IllegalArgumentException();
         }
-        this.x = x;
-        this.y = y;
-        this.radius = radius;
+        region = new Region(location, 2 * radius, 2 * radius);
         this.logger = LogManager.getLogger(this.getClass());
+    }
+
+    public void setLocation(Point location) {
+        this.location = location;
+    }
+
+    public Point getLocation() {
+        return location;
+    }
+
+    public int getRadius() {
+        return (getRegion().getWidth() / 2);
     }
 
     public String getId() {
@@ -45,43 +52,15 @@ public class Ball {
         return this.logger;
     }
 
-    public int getX() {
-        return x;
-    }
 
-    public int getY() {
-        return y;
-    }
 
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public int getRadius() {
-        return radius;
-    }
-
-    public void paint(Graphics g) {
-        g.drawOval(x, y, radius, radius);
+    public Region getRegion() {
+        return region;
     }
 
     public boolean isCollision(Ball other) {
+        return getRegion().intersects(other.getRegion());
 
-        return Math
-                .sqrt(Math.pow((double) this.getX() - other.getX(), 2)
-                        + Math.pow((double) this.getY() - other.getY(), 2))
-                - (this.getRadius() + other.getRadius()) < 0;
-
-
-    }
-
-    public Rectangle getRegion() {
-        return new Rectangle(getX() - getRadius(), getY() - getRadius(), getRadius() * 2,
-                getRadius() * 2);
     }
 
 }

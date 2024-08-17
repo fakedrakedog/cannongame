@@ -2,7 +2,6 @@ package com.cannongame;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Rectangle;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -12,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 
 public class World extends JPanel {
     private List<Ball> ballList = new LinkedList<>();
+    private List<Box> boxList = new LinkedList<>();
     Logger logger = LogManager.getLogger();
 
     public World() {
@@ -29,24 +29,16 @@ public class World extends JPanel {
             }
         }
 
-        if ((newBall.getX() - newBall.getRadius() < 0)
-                || (getWidth() < newBall.getX() + newBall.getRadius())
-                || (newBall.getY() - newBall.getRadius() < 0)
-                || (getHeight() < newBall.getY() + newBall.getRadius())) {
-            throw new IllegalArgumentException("추가하려는 ball이 world를 벗어납니다.");
+        if ((newBall.getRegion().getMinX() < 0) || (getWidth() < newBall.getRegion().getMaxX())
+                || (newBall.getRegion().getMinY() < 0)
+                || (getHeight() < newBall.getRegion().getMaxY())) {
+            throw new IllegalArgumentException("추가하려는 newBall이 world를 벗어납니다.");
         }
-
 
         ballList.add(newBall);
-        if (newBall instanceof PaintableBall) {
-            logger.trace(
-                    String.format("ball 추가 : %4d, %4d, %4d, %s", ((PaintableBall) newBall).getX(),
-                            ((PaintableBall) newBall).getY(), ((PaintableBall) newBall).getRadius(),
-                            ((PaintableBall) newBall).getColor().toString()));
-        }
-
 
     }
+
 
     public void remove(Ball ball) {
         if (!ballList.contains(ball)) {
@@ -90,9 +82,9 @@ public class World extends JPanel {
                 Ball ball2 = get(j);
 
                 if (ball1.isCollision(ball2)) {
-                    Rectangle collisionArea = ball1.getRegion().intersection(ball2.getRegion());
+                    Region collisionArea = ball1.getRegion().intersection(ball2.getRegion());
 
-                    g.drawRect((int) collisionArea.getX(), (int) collisionArea.getY(),
+                    g.drawRect((int) collisionArea.getMinX(), (int) collisionArea.getMinY(),
                             (int) collisionArea.getWidth(), (int) collisionArea.getHeight());
                 }
             }
