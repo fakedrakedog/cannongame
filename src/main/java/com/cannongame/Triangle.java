@@ -8,8 +8,6 @@ import org.apache.logging.log4j.Logger;
 public class Triangle extends Region {
     private String id = UUID.randomUUID().toString();
     private String name = id;
-    private Point location;
-    private Region region;
     private Logger logger;
 
     public Triangle(Point location, int width, int height) {
@@ -21,6 +19,22 @@ public class Triangle extends Region {
             throw new IllegalArgumentException();
         }
         this.logger = LogManager.getLogger(this.getClass());
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Logger getLogger() {
+        return logger;
     }
 
 }

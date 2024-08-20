@@ -1,9 +1,13 @@
 package com.cannongame;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class MovableWorld extends World {
     private int moveCount = 0;
     private int maxMoveCount = 0;
     private int dt = 0;
+    List<Motion> effectList = new LinkedList<>();
 
     public void setDT(int dt) {
         this.dt = dt;
@@ -65,4 +69,20 @@ public class MovableWorld extends World {
         }
         logger.trace("finished : " + (System.currentTimeMillis() - startTime));
     }
+
+    public void addEffect(Motion effect) {
+        if (effect == null) {
+            throw new IllegalArgumentException();
+        }
+        effectList.add(effect);
+    }
+
+    public int getEffectCount() {
+        return effectList.size();
+    }
+
+    public Motion getEffect(int index) {
+        return effectList.get(index);
+    }
+
 }

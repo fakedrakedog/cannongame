@@ -8,33 +8,22 @@ public class BoundedWorld extends MovableWorld {
                 || (regionable.getMaxY() > getBounds().getMaxY());
     }
 
-    public void bounce(MovableBall ball) {
-        if ((ball.getMinX() < getBounds().getMinX())
-                || (ball.getMaxX() > getBounds().getMaxX())) {
-            ball.getMotion().turnDX();
+    public void bounce(Movable object) {
+        if ((object.getMinX() < getBounds().getMinX())
+                || (object.getMaxX() > getBounds().getMaxX())) {
+            object.getMotion().turnDX();
         }
 
-        if ((ball.getMinY() < getBounds().getMinY())
-                || (ball.getMaxY() > getBounds().getMaxY())) {
-            ball.getMotion().turnDY();
-        }
-    }
-
-    public void bounce(MovableBox box) {
-        if ((box.getMinX() < getBounds().getMinX())
-                || (box.getMaxX() > getBounds().getMaxX())) {
-            box.getMotion().turnDX();
-        }
-
-        if ((box.getMinY() < getBounds().getMinY())
-                || (box.getMaxY() > getBounds().getMaxY())) {
-            box.getMotion().turnDY();
+        if ((object.getMinY() < getBounds().getMinY())
+                || (object.getMaxY() > getBounds().getMaxY())) {
+            object.getMotion().turnDY();
         }
     }
 
     @Override
     public void move() {
         for (int i = 0; i < getCount(); i++) {
+
             if (get(i) instanceof MovableBall) {
                 MovableBall ball = (MovableBall) get(i);
 

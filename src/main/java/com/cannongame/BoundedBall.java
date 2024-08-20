@@ -3,15 +3,17 @@ package com.cannongame;
 import java.awt.Color;
 
 public class BoundedBall extends MovableBall {
-    private Region bounds;
+    Region bounds;
 
     public BoundedBall(Point location, int radius) {
         super(location, radius);
+
         bounds = new Region(this);
     }
 
     public BoundedBall(Point location, int radius, Color color) {
         super(location, radius, color);
+
         bounds = new Region(this);
     }
 

@@ -24,4 +24,9 @@ public class MovableBox extends PaintableBox implements Movable {
     public void move() {
         getRegion().move(getMotion());
     }
+
+    @Override
+    public void addEffect(Motion effect) {
+        motion.add(effect);
+    }
 }
