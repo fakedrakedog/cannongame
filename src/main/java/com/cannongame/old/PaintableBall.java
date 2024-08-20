@@ -1,9 +1,9 @@
-package com.cannongame;
+package com.cannongame.old;
 
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class PaintableBall extends Ball implements Paintable {
+public class PaintableBall extends Ball {
     private Color color;
 
     private static final Color BASE_COLOR = Color.black;
@@ -29,7 +29,8 @@ public class PaintableBall extends Ball implements Paintable {
 
         Color previousColor = g.getColor();
         g.setColor(getColor());
-        g.fillOval(getMinX(), getMinY(), getWidth(), getHeight());
+        g.fillOval((int) getRegion().getMinX(), (int) getRegion().getMinY(),
+                (int) getRegion().getWidth(), (int) getRegion().getHeight());
         g.setColor(previousColor);
     }
 

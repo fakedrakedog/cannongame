@@ -4,93 +4,86 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.NoSuchElementException;
+
 import javax.swing.JPanel;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class World extends JPanel {
-    private List<Ball> ballList = new LinkedList<>();
-    private List<Box> boxList = new LinkedList<>();
+    List<Regionable> regionableList = new LinkedList<>();
     Logger logger = LogManager.getLogger();
 
     public World() {
         super();
     }
 
-    public void add(Ball newBall) {
-        if (newBall == null) {
-            throw new IllegalArgumentException();
-        }
-
-        for (Ball ball : ballList) {
-            if (newBall.isCollision(ball)) {
+    public void add(Regionable object) {
+        for (Regionable item : regionableList) {
+            if (item.intersects(object)) {
                 throw new IllegalArgumentException();
             }
         }
 
-        if ((newBall.getRegion().getMinX() < 0) || (getWidth() < newBall.getRegion().getMaxX())
-                || (newBall.getRegion().getMinY() < 0)
-                || (getHeight() < newBall.getRegion().getMaxY())) {
-            throw new IllegalArgumentException("추가하려는 newBall이 world를 벗어납니다.");
+        if ((object.getMinX() < 0) || (getWidth() < object.getMaxX())
+                || (object.getMinY() < 0)
+                || (getHeight() < object.getMaxY())) {
+            throw new IllegalArgumentException("추가하려는 object이 world를 벗어납니다.");
         }
 
-        ballList.add(newBall);
+        regionableList.add(object);
 
     }
 
-
-    public void remove(Ball ball) {
-        if (!ballList.contains(ball)) {
-            throw new NoSuchElementException("존재 하지 않는 ball");
+    public void remove(Regionable object) {
+        if (object == null) {
+            throw new IllegalArgumentException();
         }
-        ballList.remove(ball);
+
+        regionableList.remove(object);
     }
 
+    @Override
     public void remove(int index) {
-        if (index < 0 || index >= ballList.size()) {
-            throw new IndexOutOfBoundsException("index out");
-        }
-        ballList.remove(index);
+        regionableList.remove(index);
     }
 
-    public Ball get(int index) {
-        if (index < 0 || index >= ballList.size()) {
-            throw new IndexOutOfBoundsException("index out");
-        }
-        return ballList.get(index);
+    public Regionable get(int index) {
+        return regionableList.get(index);
     }
 
     public int getCount() {
-        return ballList.size();
+        return regionableList.size();
     }
 
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        for (Ball ball : ballList) {
-            if (ball instanceof PaintableBall) {
-                ((PaintableBall) ball).paint(g);
+        for (Regionable item : regionableList) {
+            if (item instanceof Paintable) {
+                ((Paintable) item).paint(g);
             }
         }
 
         Color previousColor = g.getColor();
-        g.setColor(Color.red);
+        g.setColor(Color.RED);
         for (int i = 0; i < getCount(); i++) {
-            Ball ball1 = get(i);
-            for (int j = i + 1; j < getCount(); j++) {
-                Ball ball2 = get(j);
+            Regionable object1 = get(i);
 
-                if (ball1.isCollision(ball2)) {
-                    Region collisionArea = ball1.getRegion().intersection(ball2.getRegion());
+            if (object1 != null) {
+                for (int j = i + 1; j < getCount(); j++) {
+                    Regionable object2 = get(j);
 
-                    g.drawRect((int) collisionArea.getMinX(), (int) collisionArea.getMinY(),
-                            (int) collisionArea.getWidth(), (int) collisionArea.getHeight());
+                    if (object1.intersects(object2)) {
+                        Regionable intersection = object1.intersection(object2);
+
+                        g.drawRect(intersection.getMinX(), intersection.getMinY(),
+                                intersection.getWidth(), intersection.getHeight());
+                    }
                 }
             }
         }
+
         g.setColor(previousColor);
     }
-
-
 }

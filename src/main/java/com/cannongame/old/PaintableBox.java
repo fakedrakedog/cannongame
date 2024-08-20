@@ -1,9 +1,9 @@
-package com.cannongame;
+package com.cannongame.old;
 
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class PaintableBox extends Box implements Paintable {
+public class PaintableBox extends Box {
     private Color color;
     static final Color DEFAULT_COLOR = Color.black;
 
@@ -27,7 +27,8 @@ public class PaintableBox extends Box implements Paintable {
         }
         Color previousColor = g.getColor();
         g.setColor(getColor());
-        g.fillRect(getMinX(), getMinY(), getWidth(), getHeight());
+        g.fillRect(getRegion().getMinX(), getRegion().getMinY(), getRegion().getWidth(),
+                getRegion().getHeight());
         g.setColor(previousColor);
     }
 

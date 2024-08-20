@@ -1,4 +1,4 @@
-package com.cannongame;
+package com.cannongame.old;
 
 public class MovableWorld extends World {
     private int moveCount = 0;
@@ -31,8 +31,10 @@ public class MovableWorld extends World {
 
     public void move() {
         for (int i = 0; i < getCount(); i++) {
-            if (get(i) instanceof Movable) {
-                ((Movable) get(i)).move();
+            Ball ball = get(i);
+
+            if (ball instanceof MovableBall) {
+                ((MovableBall) ball).move();
             }
         }
 

@@ -1,10 +1,10 @@
-package com.cannongame;
+package com.cannongame.old;
 
 import java.util.UUID;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class Box implements Regionable {
+public class Box {
     String id = UUID.randomUUID().toString();
     String name = id;
     Region region;
@@ -67,35 +67,5 @@ public class Box implements Regionable {
 
     public Logger getLogger() {
         return logger;
-    }
-
-    @Override
-    public int getMinX() {
-        return getRegion().getMinX();
-    }
-
-    @Override
-    public int getMaxX() {
-        return getRegion().getMaxX();
-    }
-
-    @Override
-    public int getMinY() {
-        return getRegion().getMinY();
-    }
-
-    @Override
-    public int getMaxY() {
-        return getRegion().getMaxY();
-    }
-
-    @Override
-    public boolean intersects(Regionable other) {
-        return getRegion().intersects(other);
-    }
-
-    @Override
-    public Regionable intersection(Regionable other) {
-        return getRegion().intersection(other);
     }
 }

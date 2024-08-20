@@ -1,4 +1,4 @@
-package com.cannongame;
+package com.cannongame.old;
 
 import java.awt.Color;
 
@@ -7,12 +7,12 @@ public class BoundedBall extends MovableBall {
 
     public BoundedBall(Point location, int radius) {
         super(location, radius);
-        bounds = new Region(this);
+        bounds = getRegion();
     }
 
     public BoundedBall(Point location, int radius, Color color) {
         super(location, radius, color);
-        bounds = new Region(this);
+        bounds = getRegion();
     }
 
     public Region getBounds() {
@@ -24,15 +24,17 @@ public class BoundedBall extends MovableBall {
     }
 
     public boolean isOutOfBounds() {
-        return equals(bounds.intersection(this));
+        return !getRegion().equals(bounds.intersection(getRegion()));
     }
 
     public void bounce() {
-        if ((getMinX() < bounds.getMinX()) || (getMaxX() > bounds.getMaxX())) {
+        if ((getRegion().getMinX() < bounds.getMinX())
+                || (getRegion().getMaxX() > bounds.getMaxX())) {
             getMotion().turnDX();
         }
 
-        if ((getMinY() < bounds.getMinY()) || (getMaxY() > bounds.getMaxY())) {
+        if ((getRegion().getMinY() < bounds.getMinY())
+                || (getRegion().getMaxY() > bounds.getMaxY())) {
             getMotion().turnDY();
         }
     }

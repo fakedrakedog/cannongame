@@ -1,31 +1,34 @@
 package com.cannongame;
 
 import java.util.Random;
+
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-public class Main extends JFrame {
-    static final int WORLD_WIDTH = 400;
-    static final int WORLD_HEIGHT = 300;
-    static final int MIN_RADIUS = 10;
-    static final int MAX_RADIUS = 50;
-    static final int MIN_DELTA = 10;
-    static final int MAX_DELTA = 30;
-    static final int BALL_COUNT = 2;
-    static final int MAX_MOVE_COUNT = 100;
-    static final int DELTA_TIME = 100;
-    static Logger logger = LogManager.getLogger("main");
+public class Main {
+    public static void main(String[] args) {
+        final int MIN_RADIUS = 10;
+        final int MAX_RADIUS = 50;
+        final int MIN_WIDTH = 10;
+        final int MAX_WIDTH = 50;
+        final int MIN_HEIGHT = 10;
+        final int MAX_HEIGHT = 50;
+        final int MIN_DELTA = 3;
+        final int MAX_DELTA = 10;
+        final int WORLD_WIDTH = 400;
+        final int WORLD_HEIGHT = 300;
+        final int BALL_COUNT = 1;
+        final int BOX_COUNT = 1;
+        final int MAX_MOVE_COUNT = 0;
+        final int DELTA_TIME = 10;
 
-    public static void main(String[] args) throws InterruptedException {
-
-        Main frame = new Main();
-        BoundedWorld world = new BoundedWorld();
         Random random = new Random();
 
+        JFrame frame = new JFrame();
         frame.setSize(WORLD_WIDTH, WORLD_HEIGHT);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+        BoundedWorld world = new BoundedWorld();
         world.setSize(WORLD_WIDTH, WORLD_HEIGHT);
         frame.add(world);
 
@@ -37,23 +40,34 @@ public class Main extends JFrame {
             int dx = MIN_DELTA + random.nextInt(MAX_DELTA - MIN_DELTA + 1);
             int dy = MIN_DELTA + random.nextInt(MAX_DELTA - MIN_DELTA + 1);
 
-            if (radius * 2 <= dx) {
-                dx = radius;
-            }
-
-            if (radius * 2 <= dy) {
-                dy = radius;
-            }
-
             String sequence = "00" + (world.getCount() + 1);
             ball.setName("ball_" + sequence.substring(sequence.length() - 2));
-            ball.setDX(dx);
-            ball.setDY(dy);
+            ball.setMotion(Motion.createPosition(dx, dy));
 
             try {
                 world.add(ball);
-            } catch (IllegalArgumentException e) {
-                logger.warn("요청하신 위치[{},{}]에 다른 볼이 있어 등록이 불가능합니다.", x, y);
+            } catch (IllegalArgumentException ignore) {
+                //
+            }
+        }
+
+        while (world.getCount() < BALL_COUNT + BOX_COUNT) {
+            int width = MIN_WIDTH + random.nextInt(MAX_WIDTH - MIN_WIDTH + 1);
+            int height = MIN_HEIGHT + random.nextInt(MAX_HEIGHT - MIN_HEIGHT + 1);
+            int x = width / 2 + random.nextInt(WORLD_WIDTH - width);
+            int y = height / 2 + random.nextInt(WORLD_HEIGHT - height);
+            MovableBox box = new MovableBox(new Point(x, y), width, height);
+            int dx = MIN_DELTA + random.nextInt(MAX_DELTA - MIN_DELTA + 1);
+            int dy = MIN_DELTA + random.nextInt(MAX_DELTA - MIN_DELTA + 1);
+
+            String sequence = "00" + (world.getCount() + 1);
+            box.setName("box_" + sequence.substring(sequence.length() - 2));
+            box.setMotion(Motion.createPosition(dx, dy));
+
+            try {
+                world.add(box);
+            } catch (IllegalArgumentException ignore) {
+                //
             }
         }
 
@@ -64,6 +78,4 @@ public class Main extends JFrame {
         world.setDT(DELTA_TIME);
         world.run();
     }
-
-
 }

@@ -1,39 +1,34 @@
 package com.cannongame;
 
 public class BoundedWorld extends MovableWorld {
-    public boolean outOfBounds(Ball ball) {
-        return (ball.getRegion().getMinX() < getBounds().getMinX())
-                || (ball.getRegion().getMaxX() > getBounds().getMaxX())
-                || (ball.getRegion().getMinY() < getBounds().getMinY())
-                || (ball.getRegion().getMaxY() > getBounds().getMaxY());
+    public boolean outOfBounds(Regionable regionable) {
+        return (regionable.getMinX() < getBounds().getMinX())
+                || (regionable.getMaxX() > getBounds().getMaxX())
+                || (regionable.getMinY() < getBounds().getMinY())
+                || (regionable.getMaxY() > getBounds().getMaxY());
     }
 
-    public void bounceBall(MovableBall ball) {
-        if (ball.getRegion().getMinX() < getBounds().getMinX()) {
-            ball.moveTo(new Point(
-                    (int) (2 * (getBounds().getMinX() + ball.getRadius())
-                            - ball.getLocation().getX() + Math.abs(ball.getMotion().getDX())),
-                    ball.getLocation().getY()));
-            ball.getMotion().turnDX();
-
-        } else if (ball.getRegion().getMaxX() > getBounds().getMaxX()) {
-            ball.moveTo(new Point(
-                    (int) (2 * (getBounds().getMaxX() - ball.getRadius())
-                            - ball.getLocation().getX() - Math.abs(ball.getMotion().getDX())),
-                    ball.getLocation().getY()));
+    public void bounce(MovableBall ball) {
+        if ((ball.getMinX() < getBounds().getMinX())
+                || (ball.getMaxX() > getBounds().getMaxX())) {
             ball.getMotion().turnDX();
         }
 
-        if (ball.getRegion().getMinY() < getBounds().getMinY()) {
-            ball.moveTo(new Point(ball.getLocation().getX(),
-                    (int) (2 * (getBounds().getMinY() + ball.getRadius())
-                            - ball.getLocation().getY() + Math.abs(ball.getMotion().getDY()))));
+        if ((ball.getMinY() < getBounds().getMinY())
+                || (ball.getMaxY() > getBounds().getMaxY())) {
             ball.getMotion().turnDY();
-        } else if (ball.getRegion().getMaxY() > getBounds().getMaxY()) {
-            ball.moveTo(new Point(ball.getLocation().getX(),
-                    (int) (2 * (getBounds().getMaxY() - ball.getRadius())
-                            - ball.getLocation().getY() - Math.abs(ball.getMotion().getDY()))));
-            ball.getMotion().turnDY();
+        }
+    }
+
+    public void bounce(MovableBox box) {
+        if ((box.getMinX() < getBounds().getMinX())
+                || (box.getMaxX() > getBounds().getMaxX())) {
+            box.getMotion().turnDX();
+        }
+
+        if ((box.getMinY() < getBounds().getMinY())
+                || (box.getMaxY() > getBounds().getMaxY())) {
+            box.getMotion().turnDY();
         }
     }
 
@@ -41,36 +36,68 @@ public class BoundedWorld extends MovableWorld {
     public void move() {
         for (int i = 0; i < getCount(); i++) {
             if (get(i) instanceof MovableBall) {
-                MovableBall ball1 = (MovableBall) get(i);
+                MovableBall ball = (MovableBall) get(i);
 
-                ball1.move();
+                ball.move();
 
-                if (outOfBounds(ball1)) {
-                    bounceBall(ball1);
+                if (outOfBounds(ball)) {
+                    bounce(ball);
                 }
 
                 for (int j = 0; j < getCount(); j++) {
-                    if (ball1 != get(j)) {
-                        Ball ball2 = get(j);
+                    if (get(j) != ball) {
+                        Regionable regionable = get(j);
 
-                        if (ball1.isCollision(ball2)) {
-                            Region intersection = ball1.getRegion().intersection(ball2.getRegion());
+                        if (ball.intersects(regionable)) {
+                            Regionable intersection = ball.intersection(regionable);
 
-                            if ((intersection.getWidth() != ball1.getRegion().getWidth())
-                                    && (intersection.getWidth() != ball2.getRegion().getWidth())) {
-                                ball1.getMotion().turnDX();
+                            if ((intersection.getWidth() != ball.getWidth()) &&
+                                    (intersection.getWidth() != regionable.getWidth())) {
+                                ball.getMotion().turnDX();
                             }
 
-                            if ((intersection.getHeight() != ball1.getRegion().getHeight())
-                                    && (intersection.getHeight() != ball2.getRegion()
-                                            .getHeight())) {
-                                ball1.getMotion().turnDY();
+                            if ((intersection.getHeight() != ball.getHeight()) &&
+                                    (intersection.getHeight() != regionable.getHeight())) {
+                                ball.getMotion().turnDY();
                             }
                         }
                     }
                 }
             }
         }
+
+        for (int i = 0; i < getCount(); i++) {
+            if (get(i) instanceof MovableBox) {
+                MovableBox box = (MovableBox) get(i);
+
+                box.move();
+
+                if (outOfBounds(box)) {
+                    bounce(box);
+                }
+
+                for (int j = 0; j < getCount(); j++) {
+                    if (get(j) != box) {
+                        Regionable regionable = get(j);
+
+                        if (box.intersects(regionable)) {
+                            Regionable intersection = box.intersection(regionable);
+
+                            if ((intersection.getWidth() != box.getWidth()) &&
+                                    (intersection.getWidth() != regionable.getWidth())) {
+                                box.getMotion().turnDX();
+                            }
+
+                            if ((intersection.getHeight() != box.getHeight()) &&
+                                    (intersection.getHeight() != regionable.getHeight())) {
+                                box.getMotion().turnDY();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         repaint();
     }
 }
